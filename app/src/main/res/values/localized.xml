@@ -32,7 +32,6 @@
     <string name="auto_skill_maker_confirm_clear_title">Confirm Clear</string>
     <string name="auto_skill_maker_confirm_clear_message">This will clear the AutoSkill command. Are you sure?</string>
     <string name="auto_skill_maker_confirm_np_deletion_title">Confirm NP deletion</string>
-    <string name="auto_skill_maker_confirm_np_deletion_message">If you delete Battle/Turn separator, NPs and cards before NP for that turn will also be deleted. Are you sure?</string>
     <string name="auto_skill_maker_atk_header">Attack</string>
     <string name="auto_skill_maker_atk_servant_np">Servant\n%d\n\nNP</string>
     <string name="auto_skill_maker_atk_cards_before_np">Cards before NP</string>
@@ -61,6 +60,12 @@
     <string name="auto_skill_maker_target_header">Choose Target</string>
     <string name="auto_skill_maker_target_none">No Target</string>
     <string name="auto_skill_maker_target_servant">Servant\n\n%d</string>
+
+    <string name="auto_skill_maker_space_ishtar">Space Ishtar</string>
+    <string name="auto_skill_maker_emiya">Emiya</string>
+    <string name="auto_skill_maker_quick">Quick</string>
+    <string name="auto_skill_maker_arts">Arts</string>
+    <string name="auto_skill_maker_buster">Buster</string>
 
     <string name="card_priority_wave_number">WAVE %d</string>
     <string name="card_priority_menu_info">Info</string>
@@ -98,6 +103,7 @@
     <string name="p_more_options">More options</string>
 
     <string name="p_enable_refill">Enable Refill</string>
+    <string name="p_refill_none">None</string>
     <string name="p_repetitions">Repetitions</string>
     <string name="p_auto_decrement">Auto-decrement</string>
     <string name="p_auto_decrement_summary">Automatically decrease the refill amount by number of apples used</string>
@@ -139,7 +145,6 @@
     <string name="p_experimental">Experimental</string>
     <string name="p_screenshot_drops">Screenshot Drops</string>
     <string name="p_screenshot_drops_summary">Saved to \'Fate-Grand-Automata/drops\' folder</string>
-    <string name="p_friend_summon_only">Friend Points Summons Only</string>
     <string name="p_boost_item">Boost Item</string>
     <string name="p_brave_chains">Brave Chains</string>
     <string name="p_rearrange_cards">Rearrange Cards</string>
@@ -174,10 +179,11 @@
     <string name="p_fine_tune_swipes">Swipes</string>
     <string name="p_fine_tune_wait_after_swiping">Wait after swiping (ms)</string>
     <string name="p_fine_tune_swipe_duration">Swipe duration (ms)</string>
-    <string name="p_fine_tune_support_swipe_multiplier">Support Swipe Multiplier (%)</string>
+    <string name="p_fine_tune_swipe_multiplier">Swipe Multiplier (%)</string>
     <string name="p_fine_tune_wait">Wait</string>
     <string name="p_fine_tune_skill_delay">Skill Delay (ms)</string>
     <string name="p_fine_tune_wait_before_turn">Wait before Turn (ms)</string>
+    <string name="p_fine_tune_wait_before_cards">Wait before Cards (ms)</string>
     <string name="p_fine_tune_wait_multiplier">Wait Multiplier (%)</string>
 
     <string name="p_nav_refill">Refill</string>
@@ -188,14 +194,13 @@
     <string name="p_nav_skill_levels">Skill Levels</string>
     <string name="p_nav_card_priority">Card Priority</string>
 
-    <string name="p_refill_type_all_apples">All Apples (NO SQ)</string>
     <string name="p_refill_type_gold">Gold</string>
     <string name="p_refill_type_silver">Silver</string>
     <string name="p_refill_type_bronze">Bronze</string>
-    <string name="p_refill_type_sq">SQ (Rainbow)</string>
+    <string name="p_refill_type_sq">SQ</string>
 
     <string name="p_brave_chains_don_t_care">Don\'t care</string>
-    <string name="p_brave_chains_after_np">After NP</string>
+    <string name="p_brave_chains_with_np">With NP</string>
     <string name="p_brave_chains_avoid">Avoid</string>
 
     <string name="p_boost_item_disabled">Disabled</string>
@@ -214,6 +219,9 @@
     <string name="p_script_mode_lottery">Lottery</string>
     <string name="p_script_mode_friend_gacha">Friend Gacha</string>
     <string name="p_script_mode_support_img_maker">Support Image Maker</string>
+    <string name="p_script_mode_gift_box">Gift Box</string>
+
+    <string name="p_max_gold_ember_set_size">Max Gold ember set size</string>
 
     <string name="p_party_not_set">Not Set</string>
 
@@ -236,8 +244,8 @@
     <string name="accessibility_disabled_message">Turn on accessibility for this app from System settings. If it is already On, turn it OFF and start again.</string>
     <string name="accessibility_disabled_go_to_settings">Go To Settings</string>
     <string name="cannot_start_recording">Couldn\'t start recording</string>
-    <string name="select_auto_skill_config">Select AutoSkill Config</string>
-    <string name="no_auto_skill_configs">No AutoSkill Configs</string>
+    <string name="select_script">Select Script</string>
+    <string name="other_scripts">Lottery/FP/GiftBox/\nSupport Image Maker</string>
 
     <string name="script_msg_ap_ran_out">AP ran out!</string>
     <string name="stopped_by_user">Script stopped by user or screen turned OFF</string>
@@ -262,4 +270,5 @@
     <string name="avg_time_per_run">Average time per run: %s</string>
     <string name="turns_count">Turns: %d</string>
     <string name="turns_stats">Turns: %1$d (min), %2$d (avg), %3$d (max)</string>
+    <string name="picked_exp_stacks">Picked %d EXP stacks</string>
 </resources>

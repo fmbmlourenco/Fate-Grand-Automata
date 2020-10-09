@@ -20,16 +20,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
     @Inject
     lateinit var cutoutManager: CutoutManager
+
+    @Inject
+    lateinit var powerManager: PowerManager
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         setSupportActionBar(toolbar)
 
         val navController: NavController = findNavController(R.id.nav_host_fragment)
@@ -55,8 +56,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun ignoreBatteryOptimizations() {
-        val powerManager = getSystemService(POWER_SERVICE) as PowerManager
-
         if (powerManager.isIgnoringBatteryOptimizations(packageName)) {
             return
         }

@@ -49,12 +49,6 @@ class AutoSkill(fgAutomataApi: IFgoAutomataApi) : IFgoAutomataApi by fgAutomataA
         Game.battleExtraInfoWindowCloseClick.click()
     }
 
-    private fun castNoblePhantasm(noblePhantasm: CommandCard.NP) {
-        battle.clickAttack()
-
-        card.clickNp(noblePhantasm)
-    }
-
     private fun openMasterSkillMenu() {
         Game.battleMasterSkillOpenClick.click()
 
@@ -106,17 +100,11 @@ class AutoSkill(fgAutomataApi: IFgoAutomataApi) : IFgoAutomataApi by fgAutomataA
     }
 
     fun act(action: AutoSkillAction) = when (action) {
-        is AutoSkillAction.CardsBeforeNP -> {
-            battle.clickAttack()
-
-            card.clickCommandCards(action.count)
-        }
-        is AutoSkillAction.NP -> castNoblePhantasm(action.np)
+        is AutoSkillAction.Atk -> card.atk = action
         is AutoSkillAction.ServantSkill -> castSkill(action.skill, action.target)
         is AutoSkillAction.MasterSkill -> castMasterSkill(action.skill, action.target)
         is AutoSkillAction.TargetEnemy -> selectEnemyTarget(action.enemy)
         is AutoSkillAction.OrderChange -> orderChange(action)
-        AutoSkillAction.NoOp -> Unit
     }
 
     fun resetState() {

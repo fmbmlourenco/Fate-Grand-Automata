@@ -5,17 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.mathewsachin.fategrandautomata.R
 import com.mathewsachin.fategrandautomata.ui.MainFragmentDirections
+import com.mathewsachin.fategrandautomata.util.nav
 import dagger.hilt.android.AndroidEntryPoint
-import mu.KotlinLogging
 import com.mathewsachin.fategrandautomata.prefs.R.string as prefKeys
-
-private val logger = KotlinLogging.logger {}
 
 @AndroidEntryPoint
 class MainSettingsFragment : PreferenceFragmentCompat() {
@@ -24,7 +21,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
             val action = MainFragmentDirections
                 .actionMainFragmentToAutoSkillListFragment()
 
-            findNavController().navigate(action)
+            nav(action)
         }
     }
 
@@ -36,7 +33,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                 val action = MainFragmentDirections
                     .actionMainFragmentToRefillSettingsFragment()
 
-                findNavController().navigate(action)
+                nav(action)
 
                 true
             }
@@ -59,7 +56,7 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
                 val action = MainFragmentDirections
                     .actionMainFragmentToMoreSettingsFragment()
 
-                findNavController().navigate(action)
+                nav(action)
 
                 true
             }
@@ -74,6 +71,12 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         findPreference<Preference>(getString(prefKeys.pref_nav_refill))?.let {
             vm.refillMessage.observe(viewLifecycleOwner) { msg ->
                 it.summary = msg
+            }
+        }
+
+        findPreference<ListPreference>(getString(R.string.pref_script_mode))?.let {
+            vm.scriptMode.observe(viewLifecycleOwner) { mode ->
+                it.value = mode.toString()
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.mathewsachin.fategrandautomata.prefs.core
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.mathewsachin.fategrandautomata.StorageDirs
 import com.mathewsachin.fategrandautomata.prefs.R
 import com.mathewsachin.fategrandautomata.prefs.defaultCardPriority
@@ -11,7 +12,7 @@ class AutoSkillPrefsCore(
     val context: Context,
     val storageDirs: StorageDirs
 ) {
-    val sharedPrefs = context.getSharedPreferences(
+    val sharedPrefs: SharedPreferences = context.getSharedPreferences(
         id,
         Context.MODE_PRIVATE
     )
@@ -39,8 +40,11 @@ class AutoSkillPrefsCore(
     var braveChains by maker.string(R.string.pref_auto_skill_brave_chains)
         .map({
             it.split(",").map { m ->
-                if (m.isBlank()) BraveChainEnum.None
-                else BraveChainEnum.valueOf(m)
+                try {
+                    enumValueOf(m)
+                } catch (e: Exception) {
+                    BraveChainEnum.None
+                }
             }
         }, {
             it.joinToString(",") { m -> m.toString() }

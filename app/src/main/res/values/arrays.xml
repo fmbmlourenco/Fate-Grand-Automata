@@ -2,30 +2,28 @@
 <resources>
     <!-- Label ordering must match values -->
     <array name="refill_type_labels">
-        <item>@string/p_refill_type_all_apples</item>
-        <item>@string/p_refill_type_gold</item>
-        <item>@string/p_refill_type_silver</item>
         <item>@string/p_refill_type_bronze</item>
+        <item>@string/p_refill_type_silver</item>
+        <item>@string/p_refill_type_gold</item>
         <item>@string/p_refill_type_sq</item>
     </array>
 
     <array name="refill_type_values">
-        <item>AllApples</item>
-        <item>Gold</item>
-        <item>Silver</item>
         <item>Bronze</item>
+        <item>Silver</item>
+        <item>Gold</item>
         <item>SQ</item>
     </array>
 
     <array name="brave_chain_labels">
         <item>@string/p_brave_chains_don_t_care</item>
-        <item>@string/p_brave_chains_after_np</item>
+        <item>@string/p_brave_chains_with_np</item>
         <item>@string/p_brave_chains_avoid</item>
     </array>
 
     <array name="brave_chain_values">
         <item>None</item>
-        <item>AfterNP</item>
+        <item>WithNP</item>
         <item>Avoid</item>
     </array>
 
@@ -95,20 +93,6 @@
     <array name="support_selection_modes_fallback_values">
         <item>First</item>
         <item>Manual</item>
-    </array>
-
-    <array name="script_mode_labels">
-        <item>@string/p_script_mode_battle</item>
-        <item>@string/p_script_mode_lottery</item>
-        <item>@string/p_script_mode_friend_gacha</item>
-        <item>@string/p_script_mode_support_img_maker</item>
-    </array>
-
-    <array name="script_mode_values">
-        <item>Battle</item>
-        <item>Lottery</item>
-        <item>FriendGacha</item>
-        <item>SupportImageMaker</item>
     </array>
 
     <array name="party_labels">

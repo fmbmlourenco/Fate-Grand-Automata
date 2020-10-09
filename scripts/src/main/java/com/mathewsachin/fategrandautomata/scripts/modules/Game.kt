@@ -46,8 +46,6 @@ class Game @Inject constructor(val prefs: IPreferences) {
 
         val supportScreenRegion = Region(0, 0, 200, 400)
         val supportListRegion = Region(70, 332, 378, 1091) // see docs/support_list_region.png
-        val supportSwipeStartClick = Location(35, 1190)
-        val supportSwipeEndClick = Location(5, 660)
         val supportFriendsRegion = Region(448, 332, 1210, 1091)
 
         val supportMaxAscendedRegion = Region(376, 0, 16, 120)
@@ -112,6 +110,9 @@ class Game @Inject constructor(val prefs: IPreferences) {
 
         val gudaFinalRewardsRegion = Region(1160, 1040, 228, 76)
         val friendPtSummonCheck = Region(1380, 1220, 75, 75)
+        val continueSummonRegion = Region(1244, 1264, 580, 170)
+
+        val finishedLotteryBoxRegion = Region(540, 860, 140, 100)
     }
 
     val battleStageCountRegion

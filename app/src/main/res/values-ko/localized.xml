@@ -31,7 +31,6 @@
     <string name="auto_skill_maker_confirm_clear_title">초기화 확인</string>
     <string name="auto_skill_maker_confirm_clear_message">이 작업은 오토 스클 커맨드를 초기화 하게 됩니다. 정말로 하시겠습니까?</string>
     <string name="auto_skill_maker_confirm_np_deletion_title">보구 삭제 확인</string>
-    <string name="auto_skill_maker_confirm_np_deletion_message">배틀/턴 분리기를 지우게 되면 보구와 해당 턴의 보구 전의 카드도 지워집니다. 정말로 지우시겠습니까?</string>
     <string name="auto_skill_maker_atk_header">공격</string>
     <string name="auto_skill_maker_atk_servant_np">서번트\n%d\n\n보구</string>
     <string name="auto_skill_maker_atk_cards_before_np">보구 전 공격카드</string>
@@ -69,7 +68,7 @@
     <string name="card_priority_low">낮음</string>
     <string name="card_priority_add_wave">웨이브 추가</string>
     <string name="card_priority_remove_last_wave">마지막 웨이브 제거</string>
-    <string name="card_priority_experimental">실험직 기능 활성화</string>
+    <string name="card_priority_experimental">실험적 기능 활성화</string>
 
     <string name="toggle_service">서비스 ON/OFF</string>
     <string name="fine_tune_menu_reset_to_defaults">기본값으로 리셋</string>
@@ -137,7 +136,6 @@
     <string name="p_stop_on_ce_get_summary">첫번째 퀘스트 클리어 보상과 인연예장(실험적 기능)</string>
     <string name="p_experimental">실험적 기능</string>
     <string name="p_screenshot_drops">드롭 아이템 스크린샷</string>
-    <string name="p_friend_summon_only">친구 포인트 소환만</string>
     <string name="p_boost_item">부스트 아이템</string>
     <string name="p_brave_chains">브레이브 체인</string>
     <string name="p_rearrange_cards">카드 재배열</string>
@@ -160,7 +158,7 @@
     <string name="p_fine_tune_default">기본값: %d</string>
     <string name="p_fine_tune_support">서포트</string>
     <string name="p_fine_tune_support_swipes_per_update">갱신당 스와이프 수</string>
-    <string name="p_fine_tune_support_max_updates">최대 업데이트</string>
+    <string name="p_fine_tune_support_max_updates">최대 갱신 수</string>
     <string name="p_fine_tune_similarity">유사성</string>
     <string name="p_fine_tune_min_similarity">최소 유사성 (%)</string>
     <string name="p_fine_tune_mlb_similarity">최대해방 / 풀돌 유사성 (%)</string>
@@ -172,9 +170,10 @@
     <string name="p_fine_tune_swipes">스와이프</string>
     <string name="p_fine_tune_wait_after_swiping">스와이프 후 딜레이 (ms)</string>
     <string name="p_fine_tune_swipe_duration">스와이프 지속 시간 (ms)</string>
-    <string name="p_fine_tune_support_swipe_multiplier">서포트 스와이프 배율기 (%)</string>
+    <string name="p_fine_tune_swipe_multiplier">스와이프 배율기 (%)</string>
     <string name="p_fine_tune_wait">딜레이</string>
     <string name="p_fine_tune_skill_delay">스킬 딜레이 (ms)</string>
+    <string name="p_fine_tune_wait_before_turn">턴 시작 전 딜레이 (ms)</string>
     <string name="p_fine_tune_wait_multiplier">딜레이 배율기 (%)</string>
 
     <string name="p_nav_refill">사과 사용</string>
@@ -185,14 +184,12 @@
     <string name="p_nav_skill_levels">스킬 레벨</string>
     <string name="p_nav_card_priority">카드 우선</string>
 
-    <string name="p_refill_type_all_apples">사과만 (성정석 제외)</string>
     <string name="p_refill_type_gold">금</string>
     <string name="p_refill_type_silver">은</string>
     <string name="p_refill_type_bronze">동</string>
-    <string name="p_refill_type_sq">성정석 (무지개 사과)</string>
+    <string name="p_refill_type_sq">성정석</string>
 
     <string name="p_brave_chains_don_t_care">상관 없음</string>
-    <string name="p_brave_chains_after_np">보구 후</string>
     <string name="p_brave_chains_avoid">자제</string>
 
     <string name="p_boost_item_disabled">비활성화</string>
@@ -233,10 +230,8 @@
     <string name="accessibility_disabled_message">시스템 설정에서 접근성 서비스 사용을 활성화 하십시오. 이미 활성화 되어 있다면 비활성화 후 다시 활성화 하십시오.</string>
     <string name="accessibility_disabled_go_to_settings">설정으로 가기</string>
     <string name="cannot_start_recording">화면 녹화를 시작할 수 없음</string>
-    <string name="select_auto_skill_config">오토 스킬 설정 선택</string>
-    <string name="no_auto_skill_configs">오토 스킬 설정 없음</string>
 
-    <string name="script_msg_ap_ran_out">AP 다 씀!</string>
+    <string name="script_msg_ap_ran_out">AP를 모두 소비하였습니다!</string>
     <string name="stopped_by_user">사용자에 의해 스크립트 중지됨 또는 화면 꺼짐</string>
     <string name="unexpected_error">예상 밖의 오류</string>
     <string name="script_exited">스크립트 빠져나옴</string>
@@ -252,11 +247,11 @@
     <string name="times_ran">%d번 반복함</string>
     <string name="times_ran_out_of">%2$d번 중 %1$d번 반복함</string>
     <string name="refills_used_out_of">%2$d번 중 %1$d번 사과 사용</string>
-    <string name="failed_to_determine_card_type">카드 유형 확인 실패: %초</string>
+    <string name="failed_to_determine_card_type">카드 유형 확인 실패: %s</string>
     <string name="support_list_updated_in">서포트 리스트가 %s 안에 갱신됩니다</string>
     <string name="times_withdrew">%d번 철수함</string>
     <string name="battle_time">시간: %s</string>
     <string name="avg_time_per_run">반복 평균 시간: %s</string>
     <string name="turns_count">턴: %d</string>
-    <string name="turns_stats">턴: %1$d (분), %2$d (평균), %3$d (최대)</string>
+    <string name="turns_stats">턴: %1$d (최단), %2$d (평균), %3$d (최장)</string>
 </resources>

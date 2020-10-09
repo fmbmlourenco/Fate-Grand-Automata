@@ -2,7 +2,6 @@ package com.mathewsachin.fategrandautomata.accessibility
 
 import android.annotation.SuppressLint
 import android.app.Service
-import android.content.Context
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.Build
@@ -26,16 +25,17 @@ import kotlin.time.milliseconds
 @ServiceScoped
 class ScriptRunnerUserInterface @Inject constructor(
     val Service: Service,
-    val highlightManager: HighlightManager
+    val highlightManager: HighlightManager,
+    val windowManager: WindowManager
 ) {
-    val overlayType: Int
-        get() {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            } else WindowManager.LayoutParams.TYPE_PHONE
-        }
-
-    val windowManager = Service.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    companion object {
+        val overlayType: Int
+            get() {
+                return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                } else WindowManager.LayoutParams.TYPE_PHONE
+            }
+    }
 
     private val metrics: DisplayMetrics
         get() {
@@ -126,7 +126,7 @@ class ScriptRunnerUserInterface @Inject constructor(
         windowManager.removeView(highlightManager.highlightView)
     }
 
-    var isPauseButtonVisibile
+    var isPauseButtonVisible
         get() = scriptPauseBtn.visibility == View.VISIBLE
         set(value) {
             scriptPauseBtn.post {
@@ -134,6 +134,9 @@ class ScriptRunnerUserInterface @Inject constructor(
             }
         }
 
+    fun playButtonEnabled(enabled: Boolean) = scriptCtrlBtn.post {
+        scriptCtrlBtn.isEnabled = enabled
+    }
 
     fun setPlayIcon() {
         scriptCtrlBtn.post {

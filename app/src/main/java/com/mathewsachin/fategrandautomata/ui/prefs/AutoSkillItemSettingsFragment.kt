@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.preference.EditTextPreference
@@ -27,12 +26,11 @@ import com.mathewsachin.fategrandautomata.scripts.prefs.IPreferences
 import com.mathewsachin.fategrandautomata.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import mu.KotlinLogging
+import timber.log.Timber
+import timber.log.error
 import java.util.*
 import javax.inject.Inject
 import com.mathewsachin.fategrandautomata.prefs.R.string as prefKeys
-
-private val logger = KotlinLogging.logger {}
 
 @AndroidEntryPoint
 class AutoSkillItemSettingsFragment : PreferenceFragmentCompat() {
@@ -58,7 +56,7 @@ class AutoSkillItemSettingsFragment : PreferenceFragmentCompat() {
                     outStream.writer().use { it.write(json) }
                 }
             } catch (e: Exception) {
-                logger.error("Failed to export", e)
+                Timber.error(e) { "Failed to export" }
 
                 val msg = getString(R.string.auto_skill_item_export_failed)
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
@@ -85,7 +83,7 @@ class AutoSkillItemSettingsFragment : PreferenceFragmentCompat() {
                 val action = AutoSkillItemSettingsFragmentDirections
                     .actionAutoSkillItemSettingsFragmentToCardPriorityFragment(args.key)
 
-                findNavController().navigate(action)
+                nav(action)
 
                 true
             }
@@ -97,7 +95,7 @@ class AutoSkillItemSettingsFragment : PreferenceFragmentCompat() {
                     val action = AutoSkillItemSettingsFragmentDirections
                         .actionAutoSkillItemSettingsFragmentToAutoSkillMakerActivity(args.key)
 
-                    findNavController().navigate(action)
+                    nav(action)
                 }
 
                 true
@@ -109,7 +107,7 @@ class AutoSkillItemSettingsFragment : PreferenceFragmentCompat() {
                 val action = AutoSkillItemSettingsFragmentDirections
                     .actionAutoSkillItemSettingsFragmentToSkillLevelSettingsFragment(args.key)
 
-                findNavController().navigate(action)
+                nav(action)
 
                 true
             }
@@ -191,7 +189,7 @@ class AutoSkillItemSettingsFragment : PreferenceFragmentCompat() {
                 getString(R.string.support_imgs_extracted)
             } catch (e: Exception) {
                 getString(R.string.support_imgs_extract_failed).also { msg ->
-                    logger.error(msg, e)
+                    Timber.error(e) { msg }
                 }
             }
 
@@ -236,7 +234,7 @@ class AutoSkillItemSettingsFragment : PreferenceFragmentCompat() {
                 val action = AutoSkillItemSettingsFragmentDirections
                     .actionAutoSkillItemSettingsFragmentSelf(guid)
 
-                findNavController().navigate(action)
+                nav(action)
 
                 true
             }

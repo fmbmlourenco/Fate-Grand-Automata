@@ -10,27 +10,25 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.mathewsachin.fategrandautomata.R
 import com.mathewsachin.fategrandautomata.scripts.prefs.IAutoSkillPreferences
 import com.mathewsachin.fategrandautomata.scripts.prefs.IPreferences
+import com.mathewsachin.fategrandautomata.util.nav
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.autoskill_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mu.KotlinLogging
 import mva3.adapter.ListSection
 import mva3.adapter.MultiViewAdapter
 import mva3.adapter.util.Mode
+import timber.log.Timber
+import timber.log.error
 import java.util.*
 import javax.inject.Inject
-
-private val logger = KotlinLogging.logger {}
 
 @AndroidEntryPoint
 class AutoSkillListFragment : Fragment(R.layout.autoskill_list) {
@@ -111,7 +109,7 @@ class AutoSkillListFragment : Fragment(R.layout.autoskill_list) {
         val action = AutoSkillListFragmentDirections
             .actionAutoSkillListFragmentToAutoSkillItemSettingsFragment(Id)
 
-        findNavController().navigate(action)
+        nav(action)
     }
 
     val autoSkillExportAll = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { dirUri ->
@@ -135,7 +133,7 @@ class AutoSkillListFragment : Fragment(R.layout.autoskill_list) {
                             }
                         }
                 } catch (e: Exception) {
-                    logger.error("Failed to export", e)
+                    Timber.error(e) { "Failed to export" }
                     ++failed
                 }
             }
@@ -171,7 +169,7 @@ class AutoSkillListFragment : Fragment(R.layout.autoskill_list) {
                         }
                     } catch (e: Exception) {
                         ++failed
-                        logger.error("Import Failed", e)
+                        Timber.error(e) { "Import Failed" }
                     }
                 }
             }

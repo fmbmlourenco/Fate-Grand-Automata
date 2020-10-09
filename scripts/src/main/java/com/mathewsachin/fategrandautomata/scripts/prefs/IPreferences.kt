@@ -7,7 +7,7 @@ import com.mathewsachin.libautomata.IPlatformPrefs
 import kotlin.time.Duration
 
 interface IPreferences {
-    val scriptMode: ScriptModeEnum
+    var scriptMode: ScriptModeEnum
     var gameServer: GameServerEnum
     val skillConfirmation: Boolean
     val autoSkillList: Set<String>
@@ -26,12 +26,13 @@ interface IPreferences {
     val gudaFinal: Boolean
     val recordScreen: Boolean
     val skillDelay: Duration
-    val friendPtsOnly: Boolean
     val screenshotDrops: Boolean
     val canPauseScript: Boolean
+    val maxGoldEmberSetSize: Int
 
     val stageCounterSimilarity: Double
     val waitBeforeTurn: Duration
+    val waitBeforeCards: Duration
 
     val support: ISupportPreferencesCommon
     val platformPrefs: IPlatformPrefs

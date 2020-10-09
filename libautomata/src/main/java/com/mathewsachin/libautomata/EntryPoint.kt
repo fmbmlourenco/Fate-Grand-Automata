@@ -22,35 +22,40 @@ abstract class EntryPoint(
     /**
      * Notifies the script that the user requested it to stop.
      */
-    fun stop() = exitManager.exit()
+    fun stop(reason: ScriptAbortException) = exitManager.exit(reason)
 
     private fun scriptRunner() {
         try {
             script()
         } catch (e: ScriptAbortException) {
-            // Script stopped by user
-            if (e.message.isNotBlank()) {
-                platformImpl.messageBox(messages.scriptExited, e.message)
+            if (e !is ScriptAbortException.User) {
+                platformImpl.notify(messages.stoppedByUser)
             }
 
-            platformImpl.notify(messages.stoppedByUser)
+            if (e.message.isNotBlank()) {
+                platformImpl.messageBox(messages.scriptExited, e.message) {
+                    onExit()
+                }
+            } else onExit()
         } catch (e: ScriptExitException) {
-            scriptExitListener.invoke(e)
-
             // Show the message box only if there is some message
             if (e.message.isNotBlank()) {
                 val msg = messages.scriptExited
-                platformImpl.messageBox(msg, e.message)
                 platformImpl.notify(msg)
-            }
+
+                platformImpl.messageBox(msg, e.message) {
+                    onExit(e)
+                }
+            } else onExit(e)
         } catch (e: Exception) {
             println(e.messageAndStackTrace)
 
-            scriptExitListener.invoke(e)
-
             val msg = messages.unexpectedError
-            platformImpl.messageBox(msg, e.messageAndStackTrace, e)
             platformImpl.notify(msg)
+
+            platformImpl.messageBox(msg, e.messageAndStackTrace, e) {
+                onExit(e)
+            }
         }
     }
 
@@ -63,7 +68,13 @@ abstract class EntryPoint(
      * @throws ScriptAbortException when the user stopped the script
      * @throws ScriptExitException when an exit condition was reached
      */
-    protected abstract fun script(): Nothing
+    abstract fun script(): Nothing
+
+    private fun onExit(e: Exception? = null) {
+        scriptExitListener.invoke(e)
+
+        scriptExitListener = { }
+    }
 
     /**
      * A listener function, which is called when the script detected an exit condition or when an

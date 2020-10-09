@@ -2,6 +2,7 @@ package com.mathewsachin.fategrandautomata.scripts.entrypoints
 
 import com.mathewsachin.fategrandautomata.StorageDirs
 import com.mathewsachin.fategrandautomata.scripts.IFgoAutomataApi
+import com.mathewsachin.fategrandautomata.scripts.ISwipeLocations
 import com.mathewsachin.fategrandautomata.scripts.enums.GameServerEnum
 import com.mathewsachin.fategrandautomata.scripts.models.BoostItem
 import com.mathewsachin.fategrandautomata.scripts.models.RefillResource
@@ -29,9 +30,10 @@ open class AutoBattle @Inject constructor(
     exitManager: ExitManager,
     platformImpl: IPlatformImpl,
     fgAutomataApi: IFgoAutomataApi,
-    val storageDirs: StorageDirs
+    val storageDirs: StorageDirs,
+    swipeLocations: ISwipeLocations
 ) : EntryPoint(exitManager, platformImpl, fgAutomataApi.messages), IFgoAutomataApi by fgAutomataApi {
-    private val support = Support(fgAutomataApi)
+    private val support = Support(fgAutomataApi, swipeLocations)
     private val card = Card(fgAutomataApi)
     private val battle = Battle(fgAutomataApi)
     private val autoSkill = AutoSkill(fgAutomataApi)
@@ -49,11 +51,16 @@ open class AutoBattle @Inject constructor(
         } catch (e: ScriptExitException) {
             throw ScriptExitException(makeExitMessage(e.message))
         } catch (e: ScriptAbortException) {
-            val msg = if (e.message.isBlank())
-                messages.stoppedByUser
-            else e.message
+            val msg = makeExitMessage(
+                if (e.message.isBlank())
+                    messages.stoppedByUser
+                else e.message
+            )
 
-            throw ScriptAbortException(makeExitMessage(msg))
+            throw when (e) {
+                is ScriptAbortException.User -> ScriptAbortException.User(msg)
+                is ScriptAbortException.ScreenTurnedOff -> ScriptAbortException.ScreenTurnedOff(msg)
+            }
         } catch (e: Exception) {
             throw Exception(makeExitMessage("${messages.unexpectedError}: ${e.message}"), e)
         } finally {
@@ -101,7 +108,8 @@ open class AutoBattle @Inject constructor(
             { needsToWithdraw() } to { withdraw() },
             { needsToStorySkip() } to { skipStory() },
             { isFriendRequestScreen() } to { skipFriendRequestScreen() },
-            { isCeReward() } to { ceReward() }
+            { isCeReward() } to { ceReward() },
+            { isCeRewardDetails() } to { ceRewardDetails() }
             //{ isGudaFinalRewardsScreen() } to { gudaFinalReward() }
         )
 
@@ -144,6 +152,9 @@ open class AutoBattle @Inject constructor(
      * Resets the battle state, clicks on the quest and refills the AP if needed.
      */
     private fun menu() {
+        // In case the repeat loop breaks and we end up in menu (like withdrawing from quests)
+        isContinuing = false
+
         battle.resetState()
 
         showRefillsAndRunsMessage()
@@ -174,7 +185,28 @@ open class AutoBattle @Inject constructor(
         )
 
         return cases.any { (image, region) -> image in region }
-                || Game.resultCeRewardRegion.exists(images.bond10Reward, Similarity = ceRewardSimilarity)
+    }
+
+    val ceRewardSimilarity = 0.75
+
+    private fun isCeReward() =
+        Game.resultCeRewardRegion.exists(images.bond10Reward, Similarity = ceRewardSimilarity)
+
+    /**
+     * It seems like we need to click on CE (center of screen) to accept them
+     */
+    private fun ceReward() =
+        Region(Location(), Game.scriptSize).center.click()
+
+    private fun isCeRewardDetails() =
+        Game.resultCeRewardDetailsRegion.exists(images.bond10Reward, Similarity = ceRewardSimilarity)
+
+    private fun ceRewardDetails() {
+        if (prefs.stopOnCEGet) {
+            throw ScriptExitException(messages.ceGet)
+        } else notify(messages.ceGet)
+
+        Game.resultCeRewardCloseClick.click()
     }
 
     /**
@@ -242,12 +274,10 @@ open class AutoBattle @Inject constructor(
     }
 
     private fun isRepeatScreen() =
-        when (prefs.gameServer) {
-            GameServerEnum.En, GameServerEnum.Jp, GameServerEnum.Cn -> {
-                images.confirm in Game.continueRegion
-            }
-            else -> false
-        }
+        // Not yet on TW
+        if (prefs.gameServer != GameServerEnum.Tw) {
+            images.confirm in Game.continueRegion
+        } else false
 
     private fun repeatQuest() {
         // Needed to show we don't need to enter the "StartQuest" function
@@ -271,19 +301,6 @@ open class AutoBattle @Inject constructor(
         Game.resultFriendRequestRejectClick.click()
     }
 
-    private fun isCeReward() =
-        Game.resultCeRewardDetailsRegion.exists(images.bond10Reward, Similarity = ceRewardSimilarity)
-
-    val ceRewardSimilarity = 0.75
-
-    private fun ceReward() {
-        if (prefs.stopOnCEGet) {
-            throw ScriptExitException(messages.ceGet)
-        } else notify(messages.ceGet)
-
-        Game.resultCeRewardCloseClick.click()
-    }
-
     /**
      * Checks if FGO is on the quest reward screen for Mana Prisms, SQ, ...
      */
@@ -299,7 +316,7 @@ open class AutoBattle @Inject constructor(
     private fun support() {
         // Friend selection
         val hasSelectedSupport =
-            support.selectSupport(prefs.selectedAutoSkillConfig.support.selectionMode)
+            support.selectSupport(prefs.selectedAutoSkillConfig.support.selectionMode, isContinuing)
 
         if (hasSelectedSupport && !isContinuing) {
             4.seconds.wait()
@@ -328,9 +345,8 @@ open class AutoBattle @Inject constructor(
         }
 
         // Withdraw Region can vary depending on if you have Command Spells/Quartz
-        val withdrawRegion = Game.withdrawRegion
-            .findAll(images.withdraw)
-            .firstOrNull() ?: return
+        val withdrawRegion = Game.withdrawRegion.find(images.withdraw)
+            ?: return
 
         withdrawRegion.Region.click()
 
@@ -387,13 +403,14 @@ open class AutoBattle @Inject constructor(
     private fun refillStamina() {
         val refillPrefs = prefs.refill
 
-        if (refillPrefs.enabled && stonesUsed < refillPrefs.repetitions) {
-            when (val resource = RefillResource.of(refillPrefs.resource)) {
-                is RefillResource.Single -> resource.clickLocation.click()
-                is RefillResource.Multiple -> resource.items.forEach {
-                    it.clickLocation.click()
-                }
-            }
+        if (refillPrefs.enabled
+            && stonesUsed < refillPrefs.repetitions
+            && refillPrefs.resources.isNotEmpty()
+        ) {
+
+            refillPrefs.resources
+                .map { RefillResource.of(it) }
+                .forEach { it.clickLocation.click() }
 
             1.seconds.wait()
             Game.staminaOkClick.click()
@@ -418,14 +435,13 @@ open class AutoBattle @Inject constructor(
 
         if (!partySelected && party in Game.partySelectionArray.indices) {
             val currentParty = Game.selectedPartyRegion
-                .findAll(images.selectedParty)
-                .map { match ->
+                .find(images.selectedParty)
+                ?.let { match ->
                     // Find party with min distance from center of matched region
-                    Game.partySelectionArray.withIndex().minBy {
+                    Game.partySelectionArray.withIndex().minByOrNull {
                         (it.value.X - match.Region.center.X).absoluteValue
                     }?.index
                 }
-                .firstOrNull()
 
             /* If the currently selected party cannot be detected, we need to switch to a party
                which was not configured. The reason is that the "Start Quest" button becomes

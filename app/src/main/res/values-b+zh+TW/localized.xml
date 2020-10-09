@@ -31,7 +31,6 @@
     <string name="auto_skill_maker_confirm_clear_title">確認清除</string>
     <string name="auto_skill_maker_confirm_clear_message">將會清除所有設定，確認執行?</string>
     <string name="auto_skill_maker_confirm_np_deletion_title">確認復原寶具指令</string>
-    <string name="auto_skill_maker_confirm_np_deletion_message">寶具前墊刀等設定也會復原，確認執行?</string>
     <string name="auto_skill_maker_atk_header">攻擊指令</string>
     <string name="auto_skill_maker_atk_servant_np">從者\n%d\n\n寶具</string>
     <string name="auto_skill_maker_atk_cards_before_np">寶具前墊刀</string>
@@ -138,7 +137,6 @@
     <string name="p_experimental">實驗功能</string>
     <string name="p_screenshot_drops">掉落截圖</string>
     <string name="p_screenshot_drops_summary">存至 \'Fate-Grand-Automata/drops\' 資料夾</string>
-    <string name="p_friend_summon_only">只使用友情點數召喚</string>
     <string name="p_boost_item">加速道具</string>
     <string name="p_brave_chains">EX串</string>
     <string name="p_rearrange_cards">調換順序\n(優先性高的卡後出)</string>
@@ -173,7 +171,6 @@
     <string name="p_fine_tune_swipes">滑動</string>
     <string name="p_fine_tune_wait_after_swiping">滑動後暫停 (ms)</string>
     <string name="p_fine_tune_swipe_duration">滑動時間 (ms)</string>
-    <string name="p_fine_tune_support_swipe_multiplier">支援選擇加乘 (%)</string>
     <string name="p_fine_tune_wait">等待時間</string>
     <string name="p_fine_tune_skill_delay">施放技能後等待時間 (ms)</string>
     <string name="p_fine_tune_wait_multiplier">等待時間加乘 (%)</string>
@@ -186,14 +183,12 @@
     <string name="p_nav_skill_levels">技能等級</string>
     <string name="p_nav_card_priority">偏好指令卡</string>
 
-    <string name="p_refill_type_all_apples">所有蘋果 (不使用聖晶石)</string>
     <string name="p_refill_type_gold">黃金果實</string>
     <string name="p_refill_type_silver">白銀果實</string>
     <string name="p_refill_type_bronze">赤銅果實</string>
-    <string name="p_refill_type_sq">聖晶石 (彩色蘋果)</string>
+    <string name="p_refill_type_sq">聖晶石</string>
 
     <string name="p_brave_chains_don_t_care">無偏好</string>
-    <string name="p_brave_chains_after_np">寶具後串EX</string>
     <string name="p_brave_chains_avoid">避免自串EX</string>
 
     <string name="p_boost_item_disabled">關閉</string>
@@ -234,8 +229,6 @@
     <string name="accessibility_disabled_message">請在系統設定中開啟無障礙服務設定，如果已經開啟請關閉後重新開啟。</string>
     <string name="accessibility_disabled_go_to_settings">前往設定</string>
     <string name="cannot_start_recording">無法開啟螢幕錄影</string>
-    <string name="select_auto_skill_config">選取腳本</string>
-    <string name="no_auto_skill_configs">無腳本</string>
 
     <string name="script_msg_ap_ran_out">體力用完了</string>
     <string name="stopped_by_user">螢幕關閉或用戶停止腳本</string>
